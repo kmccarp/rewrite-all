@@ -15,7 +15,9 @@
  */
 package org.openrewrite;
 
+import org.openrewrite.internal.ListUtils;
 import org.openrewrite.internal.lang.Nullable;
+import org.openrewrite.marker.SearchResult;
 import org.openrewrite.table.DuplicateSourceFiles;
 
 import java.nio.file.Path;
@@ -38,6 +40,12 @@ public class FindDuplicateSourceFiles extends ScanningRecipe<Map<Path, List<Stri
     public Map<Path, List<String>> getInitialValue(ExecutionContext ctx) {
         return new HashMap<>();
     }
+
+    @Option(displayName = "Add marker for duplicates",
+            required = false,
+            description = "Add a search marker to all files whose paths appear more than once in the LST. Default: false.",
+            example = "true")
+    private boolean addMarker = false;
 
     @Override
     public TreeVisitor<?, ExecutionContext> getScanner(Map<Path, List<String>> acc) {
@@ -65,5 +73,25 @@ public class FindDuplicateSourceFiles extends ScanningRecipe<Map<Path, List<Stri
             }
         }
         return Collections.emptyList();
+    }
+
+    @Override
+    public TreeVisitor<?, ExecutionContext> getVisitor(Map<Path, List<String>> acc) {
+        if (addMarker) {
+            return new TreeVisitor<Tree, ExecutionContext>() {
+                @Override
+                public @Nullable Tree visit(@Nullable Tree tree, ExecutionContext executionContext) {
+                    Tree visited = super.visit(tree, executionContext);
+                    if (visited instanceof SourceFile) {
+                        SourceFile file = (SourceFile) visited;
+                        if (acc.containsKey(file.getSourcePath())) {
+                            visited = SearchResult.found(visited);
+                        }
+                    }
+                    return visited;
+                }
+            };
+        }
+        return super.getVisitor();
     }
 }
