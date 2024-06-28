@@ -40,8 +40,10 @@ public class CallGraph extends DataTable<CallGraph.Row> {
         String fromName;
 
         @Column(displayName = "From arguments",
-                description = "The argument types, if any, to the method or scope from which the action is issued. " +
-                              "Expressed as a comma-separated list")
+                description = """
+                              The argument types, if any, to the method or scope from which the action is issued. \
+                              Expressed as a comma-separated list\
+                              """)
         String fromArguments;
 
         @Column(displayName = "From type",
@@ -61,8 +63,10 @@ public class CallGraph extends DataTable<CallGraph.Row> {
         String toName;
 
         @Column(displayName = "To arguments",
-                description = "The argument types, if any, to the resource being accessed. " +
-                              "Expressed as a comma-separated list")
+                description = """
+                              The argument types, if any, to the resource being accessed. \
+                              Expressed as a comma-separated list\
+                              """)
         String toArguments;
 
         @Column(displayName = "To type",

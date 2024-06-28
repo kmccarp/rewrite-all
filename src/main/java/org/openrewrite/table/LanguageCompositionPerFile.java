@@ -42,8 +42,10 @@ public class LanguageCompositionPerFile extends DataTable<LanguageCompositionPer
         String sourceFileType;
 
         @Column(displayName = "Lines of text",
-                description = "The number of lines of text in the source file. " +
-                        "No language-specific knowledge to skip comments, blank lines, or any other non-code line.")
+                description = """
+                        The number of lines of text in the source file. \
+                        No language-specific knowledge to skip comments, blank lines, or any other non-code line.\
+                        """)
         Integer linesOfText;
 
         @Column(displayName = "Has parse failures",

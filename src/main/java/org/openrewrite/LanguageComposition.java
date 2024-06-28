@@ -59,10 +59,12 @@ public class LanguageComposition extends ScanningRecipe<LanguageComposition.Accu
     @Override
     public String getDescription() {
         //language=markdown
-        return "Counts the number of lines of the various kinds of source code and data formats parsed by OpenRewrite. " +
-               "Comments are not included in line counts. " +
-               "This recipe emits its results as two data tables, making no changes to any source file. " +
-               "One data table is per-file, the other is per-repository.";
+        return """
+               Counts the number of lines of the various kinds of source code and data formats parsed by OpenRewrite. \
+               Comments are not included in line counts. \
+               This recipe emits its results as two data tables, making no changes to any source file. \
+               One data table is per-file, the other is per-repository.\
+               """;
     }
 
     @Data

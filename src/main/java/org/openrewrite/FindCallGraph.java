@@ -42,9 +42,11 @@ public class FindCallGraph extends Recipe {
     }
 
     @Option(displayName = "Include standard library",
-            description = "When enabled calls to methods in packages beginning with \"java\", \"groovy\", and \"kotlin\" " +
-                          "will be included in the report. " +
-                          "By default these are omitted.",
+            description = """
+                          When enabled calls to methods in packages beginning with "java", "groovy", and "kotlin" \
+                          will be included in the report. \
+                          By default these are omitted.\
+                          """,
             required = false)
     boolean includeStdLib;
 
@@ -60,15 +62,13 @@ public class FindCallGraph extends Recipe {
             @Override
             public J.ClassDeclaration visitClassDeclaration(J.ClassDeclaration classDecl, ExecutionContext ctx) {
                 for (Statement statement : classDecl.getBody().getStatements()) {
-                    if (statement instanceof J.Block) {
-                        J.Block block = (J.Block) statement;
+                    if (statement instanceof J.Block block) {
                         if (block.isStatic()) {
                             inStaticInitializer = true;
                         } else {
                             inInitializer = true;
                         }
-                    } else if (statement instanceof J.VariableDeclarations) {
-                        J.VariableDeclarations variableDeclarations = (J.VariableDeclarations) statement;
+                    } else if (statement instanceof J.VariableDeclarations variableDeclarations) {
                         if (variableDeclarations.getModifiers().stream().anyMatch(mod -> mod.getType() == J.Modifier.Type.Static)) {
                             inStaticInitializer = true;
                         } else {
